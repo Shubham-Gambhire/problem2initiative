@@ -43,7 +43,7 @@ const bodyMarkdown = reportMarkdown.replace(/### Table of Contents[\s\S]*?\n---\
 function useSections() {
   return reportMarkdown
     .split("\n")
-    .filter((line) => line.startsWith("### "))
+    .filter((line) => line.startsWith("### ") && !/Table of Contents/i.test(line))
     .map((line) => {
       const title = line.replace(/^###\s+/, "").trim();
       return { title, id: slug(title) };
