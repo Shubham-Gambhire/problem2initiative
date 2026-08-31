@@ -41,7 +41,7 @@ export function Prioritiser({
   const [restored, setRestored] = useState(false);
   const hydrated = useRef(false);
 
-  // Hydrate once: shared link > example > saved session.
+  // Hydrate once: example > saved session.
   useEffect(() => {
     if (hydrated.current) return;
     hydrated.current = true;
