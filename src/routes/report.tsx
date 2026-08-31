@@ -53,23 +53,17 @@ function ReportPage() {
     <article className="fade-in">
       <header className="mb-8">
         <p className="mb-2 text-xs font-semibold tracking-wide text-brand-600 uppercase">
-          Project development report
+          About the project
         </p>
         <h1 className="text-3xl font-bold tracking-tight text-heading sm:text-4xl">
           P2I: A Supply Chain Problem to Initiative Prioritiser
         </h1>
         <p className="mt-2 text-subtle">
-          A problem-first decision support tool for manufacturing supply chains - how it was
-          conceived, designed and scoped.
+          How this tool came to be: the gap it responds to, the thinking behind its prioritisation
+          logic, what it does today and where it is headed.
         </p>
-        <a
-          href="/P2I_Project_Development_Report.md"
-          download
-          className="mt-4 inline-block rounded-xl border border-input bg-surface px-5 py-2.5 text-sm font-medium text-subtle transition hover:bg-surface-strong"
-        >
-          Download the report (Markdown)
-        </a>
       </header>
+
 
       <div className="lg:grid lg:grid-cols-[16rem_1fr] lg:gap-10">
         <nav className="mb-8 lg:sticky lg:top-8 lg:mb-0 lg:self-start">
