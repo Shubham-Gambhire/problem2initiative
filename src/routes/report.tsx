@@ -156,7 +156,7 @@ function ReportPage() {
               ),
             }}
           >
-            {reportMarkdown}
+            {bodyMarkdown}
           </Markdown>
         </div>
       </div>
