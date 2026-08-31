@@ -218,9 +218,14 @@
   }
 }
 
+#lovable-badge {
+  display: none !important;
+}
+
 .print-only {
   display: none;
 }
+
 
 @page {
   size: A4;

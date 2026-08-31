@@ -142,9 +142,10 @@ function Landing() {
         <p className="mt-6 text-sm text-muted-foreground">
           Curious how this was built?{" "}
           <Link to="/report" className="font-medium text-brand-600 hover:text-brand-700">
-            Read the project development report
+            About the project
           </Link>
         </p>
+
       </div>
     </section>
   );
