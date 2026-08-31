@@ -77,21 +77,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "P2I — Supply Chain Problem to Initiative Prioritiser" },
+      {
+        name: "description",
+        content:
+          "A problem-first decision support tool for prioritising digital initiatives in manufacturing supply chains.",
+      },
+      { property: "og:site_name", content: "P2I" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: appCss,
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
   shellComponent: RootShell,
@@ -119,8 +123,46 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <div className="mx-auto max-w-5xl px-4 py-8">
+        <header className="mb-8 flex flex-wrap items-center justify-between gap-3 no-print">
+          <Link to="/" className="text-lg font-bold tracking-tight text-heading">
+            P2I
+          </Link>
+          <nav className="flex items-center gap-4 text-sm">
+            <Link
+              to="/prioritise"
+              search={{ example: false }}
+              className="font-medium text-subtle hover:text-brand-700"
+              activeProps={{ className: "font-semibold text-brand-700" }}
+            >
+              Prioritiser
+            </Link>
+            <Link
+              to="/report"
+              className="font-medium text-subtle hover:text-brand-700"
+              activeProps={{ className: "font-semibold text-brand-700" }}
+            >
+              Project report
+            </Link>
+          </nav>
+        </header>
+
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+
+        <footer className="mt-16 border-t border-border pt-6 text-center text-xs text-faint no-print">
+          <p>
+            P2I · A supply chain problem to initiative prioritiser · Not affiliated with SIRI or any
+            official framework
+          </p>
+          <p className="mt-2">
+            <Link to="/report" className="text-brand-600 hover:text-brand-700">
+              Read the project development report
+            </Link>
+          </p>
+        </footer>
+      </div>
     </QueryClientProvider>
   );
 }
+
