@@ -245,6 +245,19 @@
     display: none !important;
   }
 
+  /* Single-column document flow: no sidebar track in print */
+  .report-grid {
+    display: block !important;
+  }
+
+  /* The long report body must be allowed to flow across pages */
+  .report-body {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    border: 0 !important;
+    padding: 0 !important;
+  }
+
   .print-only {
     display: block !important;
   }
@@ -329,10 +342,17 @@
 
   li,
   tr,
-  [class*="rounded-xl"],
-  [class*="rounded-2xl"] {
+  [class*="rounded-xl"]:not(.report-body),
+  [class*="rounded-2xl"]:not(.report-body) {
     break-inside: avoid;
     page-break-inside: avoid;
+  }
+
+  .report-body {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    border: 0 !important;
+    padding: 0 !important;
   }
 
   a {
@@ -340,7 +360,7 @@
     text-decoration: none !important;
   }
 
-  .print-only {
+  .print-footer {
     border-top: 1px solid #d4d4d8;
     padding-top: 6px;
     font-size: 8pt !important;

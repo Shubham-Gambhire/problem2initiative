@@ -36,10 +36,16 @@ const slug = (text: string) =>
     .trim()
     .replace(/\s+/g, "-");
 
+// The markdown ships with its own table of contents. On screen the sticky
+// sidebar covers that job, so strip it and render a print-only version instead.
+// Drop the markdown cover block and its own table of contents: the page header
+// and the Contents list above already cover both.
+const bodyMarkdown = reportMarkdown.slice(reportMarkdown.indexOf("### 1."));
+
 function useSections() {
   return reportMarkdown
     .split("\n")
-    .filter((line) => line.startsWith("### "))
+    .filter((line) => line.startsWith("### ") && !/Table of Contents/i.test(line))
     .map((line) => {
       const title = line.replace(/^###\s+/, "").trim();
       return { title, id: slug(title) };
@@ -65,8 +71,8 @@ function ReportPage() {
       </header>
 
 
-      <div className="lg:grid lg:grid-cols-[16rem_1fr] lg:gap-10">
-        <nav className="mb-8 lg:sticky lg:top-8 lg:mb-0 lg:self-start">
+      <div className="report-grid lg:grid lg:grid-cols-[16rem_1fr] lg:gap-10">
+        <nav className="no-print mb-8 lg:sticky lg:top-8 lg:mb-0 lg:self-start">
           <div className="rounded-xl border border-border bg-surface p-4">
             <div className="mb-2 text-xs font-medium text-muted-foreground">Contents</div>
             <ol className="space-y-1.5 text-sm">
@@ -81,7 +87,15 @@ function ReportPage() {
           </div>
         </nav>
 
-        <div className="rounded-2xl border border-border bg-surface p-6 sm:p-8">
+        <div className="report-body rounded-2xl border border-border bg-surface p-6 sm:p-8">
+          <section className="print-only mb-4">
+            <h2 className="mb-2 text-base font-bold text-heading">Contents</h2>
+            <ol className="list-decimal pl-7 text-sm text-subtle">
+              {sections.map((s) => (
+                <li key={s.id}>{s.title.replace(/^\d+\.\s*/, "")}</li>
+              ))}
+            </ol>
+          </section>
           <Markdown
             remarkPlugins={[remarkGfm]}
             components={{
@@ -144,7 +158,7 @@ function ReportPage() {
               ),
             }}
           >
-            {reportMarkdown}
+            {bodyMarkdown}
           </Markdown>
         </div>
       </div>
