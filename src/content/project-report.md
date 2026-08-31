@@ -17,12 +17,11 @@ Digital Supply Chain Portfolio Project
 6. The Prioritisation Logic  
 7. Problem-to-Initiative Framework  
 8. Domain Grounding & SCOR Alignment  
-9. What Is Real vs. What Is Planned  
-10. Deliberate Scope Exclusions  
-11. Design Verification Approach  
-12. Current State Summary  
-13. Future Roadmap  
-14. Conclusion  
+9. Deliberate Scope Exclusions  
+10. Design Verification Approach  
+11. Current State Summary  
+12. Future Roadmap  
+13. Conclusion  
 
 ---
 
@@ -243,27 +242,7 @@ All problem statements and initiative types are framed in language familiar to m
 
 ---
 
-### 9. What Is Real vs. What Is Planned
-
-| Element | Status |
-|---------|--------|
-| Problem-first concept and differentiation from SIRI | Fully defined and implemented |
-| Curated problem list (20) and selection rules | Fully implemented |
-| Impact / Effort scoring method | Fully implemented |
-| Problem-to-initiative mapping (tightened) | Fully implemented |
-| Free-text classification (keyword prototype of AI) | Fully implemented |
-| Out-of-bound free-text handling | Fully implemented |
-| Quality-of-life and professionalism features | Fully implemented |
-| Working interactive prototype (single-page web app) | Complete |
-| Product naming (P2I) and polished visual design | Complete |
-| Detailed PRD (Version 3.2) | Complete |
-| Production deployment / Lovable hosting | Optional next step |
-| User testing with supply chain practitioners | Future |
-| Expanded AI classification (true LLM) | Future |
-
----
-
-### 10. Deliberate Scope Exclusions
+### 9. Deliberate Scope Exclusions
 
 The following were consciously left out of the current version:
 
@@ -281,7 +260,7 @@ These exclusions keep the tool focused and honest about its current boundaries.
 
 ---
 
-### 11. Design Verification Approach
+### 10. Design Verification Approach
 
 Verification combined specification review with live prototype testing:
 
@@ -294,7 +273,7 @@ Verification combined specification review with live prototype testing:
 
 ---
 
-### 12. Current State Summary
+### 11. Current State Summary
 
 A complete, interactive prototype now exists. It contains:
 
@@ -311,7 +290,7 @@ The project has moved from specification into a working demonstration that can b
 
 ---
 
-### 13. Future Roadmap
+### 12. Future Roadmap
 
 **Near-term**
 - Optional hosting / packaging for easier sharing  
@@ -331,7 +310,7 @@ The project has moved from specification into a working demonstration that can b
 
 ---
 
-### 14. Conclusion
+### 13. Conclusion
 
 This project began as an attempt to create a SIRI-related portfolio piece and matured into something more useful: a focused, problem-driven prioritisation aid for manufacturing supply chains.
 
@@ -342,7 +321,3 @@ Development progressed from concept and PRD through a full working prototype. Al
 The design emphasises transparency, limited scope, and clear communication of what the tool is - and what it is not. That discipline is intentional. It makes the project both more credible as a portfolio piece and more honest as a decision-support concept.
 
 **Current deliverable:** A complete interactive prototype named **P2I**.
-
----
-
-*End of Project Development Report*
