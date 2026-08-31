@@ -81,44 +81,6 @@ export function clearSession() {
   }
 }
 
-/* ---------- shareable URL encoding ---------- */
-
-export function encodeProblems(selected: number[]): string {
-  return selected.join("-");
-}
-
-export function decodeProblems(value: unknown): number[] {
-  if (typeof value !== "string" || !value) return [];
-  return sanitiseSelected(value.split("-").map((n) => Number(n)));
-}
-
-export function encodeRatings(ratings: Ratings): string {
-  return Object.entries(ratings)
-    .filter(([, v]) => v.impact && v.effort)
-    .map(([id, v]) => `${id}:${v.impact}${v.effort}`)
-    .join(",");
-}
-
-export function decodeRatings(value: unknown): Ratings {
-  if (typeof value !== "string" || !value) return {};
-  const draft: Record<string, { impact: string; effort: string }> = {};
-  for (const part of value.split(",")) {
-    const [id, pair] = part.split(":");
-    if (!id || !pair || pair.length !== 2) continue;
-    draft[id] = { impact: pair[0]!, effort: pair[1]! };
-  }
-  return sanitiseRatings(draft);
-}
-
-export function buildShareUrl(selected: number[], ratings: Ratings): string {
-  const origin = typeof window === "undefined" ? "" : window.location.origin;
-  const params = new URLSearchParams({
-    p: encodeProblems(selected),
-    r: encodeRatings(ratings),
-  });
-  return `${origin}/prioritise?${params.toString()}`;
-}
-
 /* ---------- CSV export ---------- */
 
 const csvCell = (v: string | number) => `"${String(v).replace(/"/g, '""')}"`;
