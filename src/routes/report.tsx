@@ -86,6 +86,14 @@ function ReportPage() {
         </nav>
 
         <div className="rounded-2xl border border-border bg-surface p-6 sm:p-8">
+          <section className="print-only mb-4">
+            <h2 className="mb-2 text-base font-bold text-heading">Contents</h2>
+            <ol className="list-decimal pl-5 text-sm text-subtle">
+              {sections.map((s) => (
+                <li key={s.id}>{s.title.replace(/^\d+\.\s*/, "")}</li>
+              ))}
+            </ol>
+          </section>
           <Markdown
             remarkPlugins={[remarkGfm]}
             components={{
