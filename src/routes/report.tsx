@@ -69,7 +69,7 @@ function ReportPage() {
       </header>
 
 
-      <div className="lg:grid lg:grid-cols-[16rem_1fr] lg:gap-10">
+      <div className="report-grid lg:grid lg:grid-cols-[16rem_1fr] lg:gap-10">
         <nav className="no-print mb-8 lg:sticky lg:top-8 lg:mb-0 lg:self-start">
           <div className="rounded-xl border border-border bg-surface p-4">
             <div className="mb-2 text-xs font-medium text-muted-foreground">Contents</div>

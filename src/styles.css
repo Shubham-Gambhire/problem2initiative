@@ -245,6 +245,11 @@
     display: none !important;
   }
 
+  /* Single-column document flow: no sidebar track in print */
+  .report-grid {
+    display: block !important;
+  }
+
   .print-only {
     display: block !important;
   }
