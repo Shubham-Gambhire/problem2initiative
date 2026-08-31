@@ -460,7 +460,7 @@ function RatingGroup({
 }: {
   label: string;
   order: Rating[];
-  value?: Rating;
+  value: Rating | undefined;
   onSelect: (v: Rating) => void;
 }) {
   return (

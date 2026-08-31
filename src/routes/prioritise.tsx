@@ -4,7 +4,7 @@ import { Prioritiser } from "@/components/prioritiser/Prioritiser";
 
 export const Route = createFileRoute("/prioritise")({
   validateSearch: (search: Record<string, unknown>) => ({
-    example: search.example === true || search.example === "true" ? true : undefined,
+    example: search["example"] === true || search["example"] === "true",
   }),
   head: () => ({
     meta: [
@@ -31,5 +31,5 @@ export const Route = createFileRoute("/prioritise")({
 
 function PrioritisePage() {
   const { example } = Route.useSearch();
-  return <Prioritiser example={Boolean(example)} />;
+  return <Prioritiser example={example} />;
 }

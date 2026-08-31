@@ -131,6 +131,7 @@ function RootComponent() {
           <nav className="flex items-center gap-4 text-sm">
             <Link
               to="/prioritise"
+              search={{ example: false }}
               className="font-medium text-subtle hover:text-brand-700"
               activeProps={{ className: "font-semibold text-brand-700" }}
             >

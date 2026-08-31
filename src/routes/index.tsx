@@ -93,6 +93,7 @@ function Landing() {
       <div className="flex flex-col justify-center gap-3 sm:flex-row">
         <Link
           to="/prioritise"
+          search={{ example: false }}
           className="rounded-xl bg-brand-600 px-8 py-3.5 text-center font-semibold text-primary-foreground shadow-xs transition hover:bg-brand-700"
         >
           Start prioritisation
