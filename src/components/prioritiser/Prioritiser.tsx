@@ -17,7 +17,6 @@ import {
 import {
   type Ratings,
   type Step,
-  buildShareUrl,
   clearSession,
   downloadCsv,
   loadSession,
@@ -28,14 +27,9 @@ const STEP_INDEX: Record<Step, number> = { problems: 1, initiatives: 2, results:
 
 export function Prioritiser({
   example = false,
-  sharedProblems,
-  sharedRatings,
 }: {
   example?: boolean;
-  sharedProblems?: number[];
-  sharedRatings?: Ratings;
 }) {
-  const hasShared = Boolean(sharedProblems && sharedProblems.length > 0);
   const [step, setStep] = useState<Step>("problems");
   const [selected, setSelected] = useState<number[]>([]);
   const [ratings, setRatings] = useState<Ratings>({});
@@ -44,7 +38,6 @@ export function Prioritiser({
   const [modal, setModal] = useState<"max3" | "oob" | "persona" | null>(null);
   const [ratingError, setRatingError] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [linkCopied, setLinkCopied] = useState(false);
   const [restored, setRestored] = useState(false);
   const hydrated = useRef(false);
 
@@ -53,12 +46,6 @@ export function Prioritiser({
     if (hydrated.current) return;
     hydrated.current = true;
 
-    if (hasShared) {
-      setSelected(sharedProblems!);
-      setRatings(sharedRatings ?? {});
-      setStep("results");
-      return;
-    }
     if (example) {
       setSelected(EXAMPLE_PROBLEMS);
       setRatings(EXAMPLE_RATINGS);
@@ -73,15 +60,15 @@ export function Prioritiser({
       setStep(saved.step);
       setRestored(true);
     }
-  }, [example, hasShared, sharedProblems, sharedRatings]);
+  }, [example]);
 
   // Persist progress so a refresh or accidental navigation does not lose input.
   useEffect(() => {
     if (!hydrated.current) return;
-    if (example || hasShared) return; // demo / shared links never overwrite saved work
+    if (example) return; // demo links never overwrite saved work
     if (selected.length === 0 && Object.keys(ratings).length === 0) return;
     saveSession({ step, selected, ratings, freeText });
-  }, [step, selected, ratings, freeText, example, hasShared]);
+  }, [step, selected, ratings, freeText, example]);
 
   useEffect(() => {
     if (typeof window !== "undefined") window.scrollTo({ top: 0 });
@@ -176,12 +163,6 @@ export function Prioritiser({
     });
   }
 
-  function copyShareLink() {
-    void writeToClipboard(buildShareUrl(selected, ratings)).then((ok) => {
-      setLinkCopied(ok);
-      if (ok) window.setTimeout(() => setLinkCopied(false), 2500);
-    });
-  }
 
 
   const currentStep = STEP_INDEX[step];
@@ -400,9 +381,7 @@ export function Prioritiser({
           scored={scored}
           selected={selected}
           copied={copied}
-          linkCopied={linkCopied}
           onCopy={copySummary}
-          onCopyLink={copyShareLink}
           onExportCsv={() => downloadCsv(selected, ratings)}
           onRestart={restart}
           onBack={() => setStep("initiatives")}
@@ -594,9 +573,7 @@ function Results({
   scored,
   selected,
   copied,
-  linkCopied,
   onCopy,
-  onCopyLink,
   onExportCsv,
   onRestart,
   onBack,
@@ -604,9 +581,7 @@ function Results({
   scored: ScoredInitiative[];
   selected: number[];
   copied: boolean;
-  linkCopied: boolean;
   onCopy: () => void;
-  onCopyLink: () => void;
   onExportCsv: () => void;
   onRestart: () => void;
   onBack: () => void;
@@ -787,7 +762,7 @@ function Results({
           to="/report"
           className="mt-3 inline-block text-sm font-medium text-brand-600 hover:text-brand-700"
         >
-          How this tool was designed - read the project development report →
+          How this tool was designed →
         </Link>
       </div>
 
@@ -798,13 +773,6 @@ function Results({
           className="rounded-xl bg-brand-600 px-6 py-2.5 font-semibold text-primary-foreground transition hover:bg-brand-700"
         >
           Copy summary
-        </button>
-        <button
-          type="button"
-          onClick={onCopyLink}
-          className="rounded-xl border border-brand-200 bg-brand-50 px-6 py-2.5 font-medium text-brand-700 transition hover:bg-brand-100"
-        >
-          Copy shareable link
         </button>
         <button
           type="button"
@@ -837,7 +805,6 @@ function Results({
       </div>
       <div aria-live="polite" className="mt-2 text-sm text-success no-print">
         {copied && <p>Summary copied to clipboard!</p>}
-        {linkCopied && <p>Shareable link copied. Anyone with it sees these exact results.</p>}
       </div>
 
       <div className="print-only print-footer mt-6 text-xs text-muted-foreground">

@@ -1,20 +1,16 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 import { Prioritiser } from "@/components/prioritiser/Prioritiser";
-import { decodeProblems, decodeRatings } from "@/lib/p2i-state";
 
-type SearchParams = { example: boolean; p?: string; r?: string };
+type SearchParams = { example: boolean };
 
 const OG_IMAGE = "https://problem2initiative.lovable.app/favicon.png";
 
 export const Route = createFileRoute("/prioritise")({
   validateSearch: (search: Record<string, unknown>): SearchParams => {
-    const out: SearchParams = {
+    return {
       example: search["example"] === true || search["example"] === "true",
     };
-    if (typeof search["p"] === "string" && search["p"]) out.p = search["p"];
-    if (typeof search["r"] === "string" && search["r"]) out.r = search["r"];
-    return out;
   },
   head: () => ({
     meta: [
@@ -43,17 +39,9 @@ export const Route = createFileRoute("/prioritise")({
 });
 
 function PrioritisePage() {
-  const { example, p, r } = Route.useSearch();
-  const sharedProblems = decodeProblems(p);
-  const sharedRatings = decodeRatings(r);
+  const { example } = Route.useSearch();
 
-  return (
-    <Prioritiser
-      example={example}
-      sharedProblems={sharedProblems}
-      sharedRatings={sharedRatings}
-    />
-  );
+  return <Prioritiser example={example} />;
 }
 
 function PrioritiseError() {
