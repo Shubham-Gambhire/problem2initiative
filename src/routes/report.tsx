@@ -36,6 +36,10 @@ const slug = (text: string) =>
     .trim()
     .replace(/\s+/g, "-");
 
+// The markdown ships with its own table of contents. On screen the sticky
+// sidebar covers that job, so strip it and render a print-only version instead.
+const bodyMarkdown = reportMarkdown.replace(/### Table of Contents[\s\S]*?\n---\n/, "");
+
 function useSections() {
   return reportMarkdown
     .split("\n")
