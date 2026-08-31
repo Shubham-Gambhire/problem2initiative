@@ -7,17 +7,17 @@ import reportMarkdown from "@/content/project-report.md?raw";
 export const Route = createFileRoute("/report")({
   head: () => ({
     meta: [
-      { title: "Project Development Report | P2I" },
+      { title: "About the Project | P2I" },
       {
         name: "description",
         content:
-          "How P2I was designed: the SIRI gap it responds to, its prioritisation logic, problem-to-initiative framework, scope exclusions and roadmap.",
+          "The story behind P2I: the SIRI gap that sparked it, how the prioritisation logic took shape, what is real, what is planned and where it goes next.",
       },
-      { property: "og:title", content: "Project Development Report | P2I" },
+      { property: "og:title", content: "About the Project | P2I" },
       {
         property: "og:description",
         content:
-          "A full write-up of the P2I portfolio project: vision, development progression, design decisions, SCOR alignment and future roadmap.",
+          "How P2I came to be: origins, design decisions, prioritisation logic, SCOR alignment and the roadmap ahead.",
       },
       { property: "og:type", content: "article" },
       { property: "og:url", content: "/report" },
@@ -27,6 +27,7 @@ export const Route = createFileRoute("/report")({
   }),
   component: ReportPage,
 });
+
 
 const slug = (text: string) =>
   text
