@@ -202,3 +202,36 @@
     color: var(--color-foreground);
   }
 }
+
+@utility fade-in {
+  animation: p2i-fade-in 0.3s ease;
+}
+
+@keyframes p2i-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.print-only {
+  display: none;
+}
+
+@media print {
+  body {
+    background: white !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+}
