@@ -7,13 +7,13 @@ import reportMarkdown from "@/content/project-report.md?raw";
 export const Route = createFileRoute("/report")({
   head: () => ({
     meta: [
-      { title: "Project Development Report — P2I" },
+      { title: "Project Development Report | P2I" },
       {
         name: "description",
         content:
           "How P2I was designed: the SIRI gap it responds to, its prioritisation logic, problem-to-initiative framework, scope exclusions and roadmap.",
       },
-      { property: "og:title", content: "Project Development Report — P2I" },
+      { property: "og:title", content: "Project Development Report | P2I" },
       {
         property: "og:description",
         content:
@@ -55,10 +55,10 @@ function ReportPage() {
           Project development report
         </p>
         <h1 className="text-3xl font-bold tracking-tight text-heading sm:text-4xl">
-          P2I — A Supply Chain Problem to Initiative Prioritiser
+          P2I: A Supply Chain Problem to Initiative Prioritiser
         </h1>
         <p className="mt-2 text-subtle">
-          A problem-first decision support tool for manufacturing supply chains — how it was
+          A problem-first decision support tool for manufacturing supply chains - how it was
           conceived, designed and scoped.
         </p>
         <a

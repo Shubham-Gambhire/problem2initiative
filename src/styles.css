@@ -222,9 +222,18 @@
   display: none;
 }
 
+@page {
+  size: A4;
+  margin: 14mm 15mm;
+}
+
 @media print {
+  html,
   body {
     background: white !important;
+    color: #111 !important;
+    font-size: 10pt;
+    line-height: 1.35;
   }
 
   .no-print {
@@ -233,5 +242,103 @@
 
   .print-only {
     display: block !important;
+  }
+
+  /* Compact page frame: drop app chrome padding and max width */
+  body * {
+    box-shadow: none !important;
+  }
+
+  .mx-auto.max-w-5xl {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+
+  .fade-in {
+    animation: none !important;
+  }
+
+  /* Tighten cards into plain document blocks */
+  section,
+  article {
+    margin: 0 !important;
+  }
+
+  [class*="rounded"] {
+    border-radius: 2px !important;
+  }
+
+  [class*="bg-surface"],
+  [class*="bg-brand"],
+  [class*="bg-emerald"],
+  [class*="bg-amber"],
+  [class*="bg-slate"] {
+    background: white !important;
+  }
+
+  [class*="border"] {
+    border-color: #d4d4d8 !important;
+  }
+
+  [class*="p-5"],
+  [class*="p-6"],
+  [class*="sm:p-8"] {
+    padding: 8px 10px !important;
+  }
+
+  [class*="mb-8"],
+  [class*="mb-10"],
+  [class*="mt-8"] {
+    margin-bottom: 10px !important;
+  }
+
+  h1 {
+    font-size: 16pt !important;
+    margin-bottom: 4px !important;
+  }
+
+  h2 {
+    font-size: 12pt !important;
+    margin: 10px 0 4px !important;
+  }
+
+  h3 {
+    font-size: 10.5pt !important;
+    margin: 6px 0 2px !important;
+  }
+
+  p,
+  li,
+  td,
+  th {
+    font-size: 9.5pt !important;
+  }
+
+  /* Keep logical blocks from splitting across pages */
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  li,
+  tr,
+  [class*="rounded-xl"],
+  [class*="rounded-2xl"] {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  a {
+    color: #111 !important;
+    text-decoration: none !important;
+  }
+
+  .print-only {
+    border-top: 1px solid #d4d4d8;
+    padding-top: 6px;
+    font-size: 8pt !important;
+    color: #52525b !important;
   }
 }
