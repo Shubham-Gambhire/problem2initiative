@@ -152,10 +152,6 @@ function RootComponent() {
 
         <footer className="mt-16 border-t border-border pt-6 text-center text-xs text-faint no-print">
           <p>
-            P2I · A supply chain problem to initiative prioritiser · Not affiliated with SIRI or any
-            official framework
-          </p>
-          <p className="mt-2">
             <Link to="/report" className="text-brand-600 hover:text-brand-700">
               Read the project development report
             </Link>
