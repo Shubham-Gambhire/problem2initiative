@@ -342,10 +342,17 @@
 
   li,
   tr,
-  [class*="rounded-xl"],
-  [class*="rounded-2xl"] {
+  [class*="rounded-xl"]:not(.report-body),
+  [class*="rounded-2xl"]:not(.report-body) {
     break-inside: avoid;
     page-break-inside: avoid;
+  }
+
+  .report-body {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    border: 0 !important;
+    padding: 0 !important;
   }
 
   a {
