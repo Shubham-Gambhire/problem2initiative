@@ -250,6 +250,14 @@
     display: block !important;
   }
 
+  /* The long report body must be allowed to flow across pages */
+  .report-body {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    border: 0 !important;
+    padding: 0 !important;
+  }
+
   .print-only {
     display: block !important;
   }
