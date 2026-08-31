@@ -340,7 +340,7 @@
     text-decoration: none !important;
   }
 
-  .print-only {
+  .print-footer {
     border-top: 1px solid #d4d4d8;
     padding-top: 6px;
     font-size: 8pt !important;
