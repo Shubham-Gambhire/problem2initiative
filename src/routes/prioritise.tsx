@@ -8,13 +8,13 @@ export const Route = createFileRoute("/prioritise")({
   }),
   head: () => ({
     meta: [
-      { title: "Prioritise digital initiatives — P2I" },
+      { title: "Prioritise digital initiatives | P2I" },
       {
         name: "description",
         content:
           "Select up to three supply chain problems, rate the mapped digital initiatives on impact and effort, and see a transparent priority ranking.",
       },
-      { property: "og:title", content: "Prioritise digital initiatives — P2I" },
+      { property: "og:title", content: "Prioritise digital initiatives | P2I" },
       {
         property: "og:description",
         content:

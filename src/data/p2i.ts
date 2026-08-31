@@ -213,7 +213,7 @@ export const NEXT_STEPS: Record<string, string> = {
     "Start with a 60–90 day pilot covering one product family and the key warehouses to prove visibility value before scaling.",
   meio: "Begin with a multi-echelon pilot on the top 20% of SKUs by volume or value; measure working-capital impact after one quarter.",
   "exception-mgmt":
-    "Define the top 10 exception types with planners and automate alerts for those first — quick win that builds trust.",
+    "Define the top 10 exception types with planners and automate alerts for those first - quick win that builds trust.",
   "otif-dashboard":
     "Stand up a weekly OTIF review with root-cause categories; use it to drive accountability across planning, warehouse and logistics.",
   tms: "Pilot dynamic carrier selection and load consolidation on the highest-volume lanes first.",

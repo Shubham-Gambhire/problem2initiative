@@ -77,7 +77,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "P2I — Supply Chain Problem to Initiative Prioritiser" },
+      { title: "P2I: Supply Chain Problem to Initiative Prioritiser" },
       {
         name: "description",
         content:

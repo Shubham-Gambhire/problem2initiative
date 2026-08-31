@@ -4,13 +4,13 @@ import { useState } from "react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "P2I — Supply Chain Problem to Initiative Prioritiser" },
+      { title: "P2I: Supply Chain Problem to Initiative Prioritiser" },
       {
         name: "description",
         content:
           "Start from the supply chain problems you face today and get a transparent, rules-based ranking of which digital initiatives to prioritise first.",
       },
-      { property: "og:title", content: "P2I — Supply Chain Problem to Initiative Prioritiser" },
+      { property: "og:title", content: "P2I: Supply Chain Problem to Initiative Prioritiser" },
       {
         property: "og:description",
         content:
@@ -73,7 +73,7 @@ function Landing() {
           {[
             "It does not measure digital maturity or produce SIRI-style scores",
             "It is not a formal diagnostic or benchmarking tool",
-            "Rankings are driven solely by your ratings and fixed rules — no AI ranking",
+            "Rankings are driven solely by your ratings and fixed rules - no AI ranking",
           ].map((item) => (
             <li key={item} className="flex gap-2">
               <span className="text-faint">×</span>
@@ -133,7 +133,7 @@ function Landing() {
               <strong>Priority bands:</strong>
             </p>
             <ul className="list-disc space-y-1 pl-5">
-              <li>5–6 → High Impact / Lower Effort — Start here</li>
+              <li>5–6 → High Impact / Lower Effort - Start here</li>
               <li>4 → Medium priority</li>
               <li>≤ 3 → Lower priority</li>
             </ul>

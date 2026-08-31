@@ -1,10 +1,9 @@
 **Project Development Report**
 
-**P2I — A Supply Chain Problem to Initiative Prioritiser**  
+**P2I: A Supply Chain Problem to Initiative Prioritiser**  
 A Problem-First Decision Support Tool for Manufacturing Supply Chains
 
 Digital Supply Chain Portfolio Project  
-Report updated: August 2026
 
 ---
 
@@ -29,7 +28,7 @@ Report updated: August 2026
 
 ### 1. The Problem This Project Responds To
 
-This project did not begin from a blank specification. It began from work on the Smart Industry Readiness Index (SIRI) — a formal framework used to assess Industry 4.0 maturity across manufacturing companies.
+This project did not begin from a blank specification. It began from work on the Smart Industry Readiness Index (SIRI) - a formal framework used to assess Industry 4.0 maturity across manufacturing companies.
 
 While preparing and presenting material on SIRI, a practical gap became clear. Formal maturity assessments are powerful, but they are relatively heavy. Many supply chain professionals need a faster, more focused way to decide which digital initiatives deserve attention *right now*, based on the actual operational problems they are facing.
 
@@ -42,7 +41,7 @@ The real opportunity was different:
 - Keep the tool focused on manufacturing supply chains.
 - Make the prioritisation logic transparent and explainable.
 
-That gap — too heavy to run a full maturity assessment every time a prioritisation decision is needed, and not informative enough to simply list popular digital technologies — is the reason this project exists.
+That gap - too heavy to run a full maturity assessment every time a prioritisation decision is needed, and not informative enough to simply list popular digital technologies - is the reason this project exists.
 
 ---
 
@@ -75,40 +74,40 @@ The tool is named **P2I** (Problem to Initiative), with the description: *A supp
 
 The project was shaped iteratively. Early phases focused on concept and specification; later phases produced a working prototype and refined it through multiple design and usability cycles.
 
-**Phase 1 — Initial Concept**  
+**Phase 1 - Initial Concept**  
 Started from the desire to build a SIRI-related portfolio tool. Early framing still looked too much like a simplified maturity assessment.
 
-**Phase 2 — Rejection of Maturity Assessment**  
+**Phase 2 - Rejection of Maturity Assessment**  
 Explicit decision: the tool would not assess maturity, would not produce maturity scores, and would not attempt to cover all 16 SIRI dimensions. The goal shifted to prioritisation of initiatives.
 
-**Phase 3 — Problem-First Reframe**  
+**Phase 3 - Problem-First Reframe**  
 The decisive shift. The tool would start from operational problems rather than from capabilities. This created a clean and defensible separation from official SIRI.
 
-**Phase 4 — Scope Tightening**  
+**Phase 4 - Scope Tightening**  
 Confirmed manufacturing supply chain focus only. Excluded pure retail, pure services, and non-manufacturing contexts. Positioned the tool inside the Plan process of the SCOR framework.
 
-**Phase 5 — Problem List & Selection Rules**  
+**Phase 5 - Problem List & Selection Rules**  
 Defined an initial curated list of 11 manufacturing supply chain problems. Imposed a hard maximum of 3 problems that a user can select at one time, to keep prioritisation focused.
 
-**Phase 6 — AI Role Definition**  
+**Phase 6 - AI Role Definition**  
 Decided that AI would be used only for classification of free-text into the fixed problem list. Ranking, scoring, and final recommendations would remain rules-based.
 
-**Phase 7 — Out-of-Bound Handling**  
+**Phase 7 - Out-of-Bound Handling**  
 Added explicit behaviour for free-text descriptions that cannot be mapped to the current problem list: a clear popup stating that the description falls outside the current scope and that more problem categories are coming soon.
 
-**Phase 8 — Quality-of-Life & Professionalism Layer**  
+**Phase 8 - Quality-of-Life & Professionalism Layer**  
 Added progress indicators, sticky selected-problem chips, an example/demo button, Impact–Effort matrix visualisation, copy-summary functionality, disclaimers, and a collapsible “How this works” explanation.
 
-**Phase 9 — PRD Consolidation**  
+**Phase 9 - PRD Consolidation**  
 All decisions were consolidated into a detailed Product Requirements Document (Version 3.2).
 
-**Phase 10 — Working Prototype Built**  
+**Phase 10 - Working Prototype Built**  
 A complete single-page web application prototype was implemented (HTML + Tailwind CSS + vanilla JavaScript). All core flows, scoring, mapping, and quality-of-life features were made functional.
 
-**Phase 11 — Expansion of Problem & Initiative Coverage**  
+**Phase 11 - Expansion of Problem & Initiative Coverage**  
 The initial 11 problems proved too limited: different problem selections often produced nearly identical initiative lists because of heavy mapping overlap. Coverage was expanded to **20 problems** and **20 digital initiatives**, with tighter, more distinctive mappings so that changing the selected problems visibly changes the initiatives presented.
 
-**Phase 12 — Usability & Polish Iteration**  
+**Phase 12 - Usability & Polish Iteration**  
 Multiple rounds of feedback-driven fixes were applied (see Section 4). These included disclaimer placement, selection-limit feedback, rating completeness handling, example-data quality, visual hierarchy, and product naming.
 
 ---
@@ -141,11 +140,11 @@ These decisions were treated as first-class design work rather than afterthought
 
 The application is organised around a short, guided flow:
 
-1. **Landing** — Product name (P2I), clear purpose statement, subtle disclaimer, primary CTA, and “Try with an example”.
-2. **Problem Identification** — Manual selection from the curated list of 20 problems **or** free-text description with classification. Maximum 3 problems. Sticky chips show the current selection.
-3. **Initiative Mapping** — System shows only digital initiatives relevant to the selected problems (driven by the tightened mapping table).
-4. **Impact & Effort Rating** — User rates each relevant initiative. Incomplete items are marked with red asterisks. Clear instructional text guides the user.
-5. **Results** — Ranked list grouped into priority bands, Impact–Effort matrix, short rationales, illustration disclaimer, and one-click copy-summary.
+1. **Landing** - Product name (P2I), clear purpose statement, subtle disclaimer, primary CTA, and “Try with an example”.
+2. **Problem Identification** - Manual selection from the curated list of 20 problems **or** free-text description with classification. Maximum 3 problems. Sticky chips show the current selection.
+3. **Initiative Mapping** - System shows only digital initiatives relevant to the selected problems (driven by the tightened mapping table).
+4. **Impact & Effort Rating** - User rates each relevant initiative. Incomplete items are marked with red asterisks. Clear instructional text guides the user.
+5. **Results** - Ranked list grouped into priority bands, Impact–Effort matrix, short rationales, illustration disclaimer, and one-click copy-summary.
 
 Supporting elements include:
 
@@ -299,7 +298,7 @@ Verification combined specification review with live prototype testing:
 
 A complete, interactive prototype now exists. It contains:
 
-- Clear product identity (**P2I** — A supply chain problem to initiative prioritiser)  
+- Clear product identity (**P2I** - A supply chain problem to initiative prioritiser)  
 - Problem-first concept and sharp differentiation from official SIRI  
 - 20 curated problems and 20 digital initiatives with tightened mappings  
 - Transparent Impact + Effort prioritisation logic  
@@ -340,7 +339,7 @@ By refusing to copy the surface form of a maturity assessment and instead buildi
 
 Development progressed from concept and PRD through a full working prototype. Along the way, coverage was expanded (20 problems, 20 initiatives), mappings were tightened so that problem selection meaningfully changes the initiative shortlist, and multiple usability issues (disclaimer prominence, selection limits, rating completeness, example data quality, visual hierarchy, and product naming) were identified and resolved.
 
-The design emphasises transparency, limited scope, and clear communication of what the tool is — and what it is not. That discipline is intentional. It makes the project both more credible as a portfolio piece and more honest as a decision-support concept.
+The design emphasises transparency, limited scope, and clear communication of what the tool is - and what it is not. That discipline is intentional. It makes the project both more credible as a portfolio piece and more honest as a decision-support concept.
 
 **Current deliverable:** A complete interactive prototype named **P2I**.
 
