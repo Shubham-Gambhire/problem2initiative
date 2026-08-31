@@ -95,6 +95,7 @@ export function Prioritiser({ example = false }: { example?: boolean }) {
   }
 
   const scored = relevant
+    .filter((init) => ratings[init.id]?.impact && ratings[init.id]?.effort)
     .map((init) => {
       const r = ratings[init.id]!;
       const s = score(r.impact as Rating, r.effort as Rating);
