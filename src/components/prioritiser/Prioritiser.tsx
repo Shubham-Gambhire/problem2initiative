@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   EXAMPLE_PROBLEMS,
@@ -14,13 +14,28 @@ import {
   suggestFromText,
   suggestNextStep,
 } from "@/data/p2i";
-
-type Step = "problems" | "initiatives" | "results";
-type Ratings = Record<string, { impact?: Rating; effort?: Rating }>;
+import {
+  type Ratings,
+  type Step,
+  buildShareUrl,
+  clearSession,
+  downloadCsv,
+  loadSession,
+  saveSession,
+} from "@/lib/p2i-state";
 
 const STEP_INDEX: Record<Step, number> = { problems: 1, initiatives: 2, results: 3 };
 
-export function Prioritiser({ example = false }: { example?: boolean }) {
+export function Prioritiser({
+  example = false,
+  sharedProblems,
+  sharedRatings,
+}: {
+  example?: boolean;
+  sharedProblems?: number[];
+  sharedRatings?: Ratings;
+}) {
+  const hasShared = Boolean(sharedProblems && sharedProblems.length > 0);
   const [step, setStep] = useState<Step>("problems");
   const [selected, setSelected] = useState<number[]>([]);
   const [ratings, setRatings] = useState<Ratings>({});
@@ -29,19 +44,52 @@ export function Prioritiser({ example = false }: { example?: boolean }) {
   const [modal, setModal] = useState<"max3" | "oob" | "persona" | null>(null);
   const [ratingError, setRatingError] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
+  const [restored, setRestored] = useState(false);
+  const hydrated = useRef(false);
 
+  // Hydrate once: shared link > example > saved session.
   useEffect(() => {
-    if (!example) return;
-    setSelected(EXAMPLE_PROBLEMS);
-    setRatings(EXAMPLE_RATINGS);
-    setModal("persona");
-  }, [example]);
+    if (hydrated.current) return;
+    hydrated.current = true;
+
+    if (hasShared) {
+      setSelected(sharedProblems!);
+      setRatings(sharedRatings ?? {});
+      setStep("results");
+      return;
+    }
+    if (example) {
+      setSelected(EXAMPLE_PROBLEMS);
+      setRatings(EXAMPLE_RATINGS);
+      setModal("persona");
+      return;
+    }
+    const saved = loadSession();
+    if (saved) {
+      setSelected(saved.selected);
+      setRatings(saved.ratings);
+      setFreeText(saved.freeText);
+      setStep(saved.step);
+      setRestored(true);
+    }
+  }, [example, hasShared, sharedProblems, sharedRatings]);
+
+  // Persist progress so a refresh or accidental navigation does not lose input.
+  useEffect(() => {
+    if (!hydrated.current) return;
+    if (example || hasShared) return; // demo / shared links never overwrite saved work
+    if (selected.length === 0 && Object.keys(ratings).length === 0) return;
+    saveSession({ step, selected, ratings, freeText });
+  }, [step, selected, ratings, freeText, example, hasShared]);
 
   useEffect(() => {
     if (typeof window !== "undefined") window.scrollTo({ top: 0 });
   }, [step]);
 
   const relevant = relevantInitiatives(selected);
+
+
 
   function toggleProblem(idx: number) {
     setSelected((prev) => {
@@ -91,7 +139,9 @@ export function Prioritiser({ example = false }: { example?: boolean }) {
     setRatings({});
     setFreeText("");
     setStatus("");
+    setRestored(false);
     setStep("problems");
+    clearSession();
   }
 
   const scored = relevant
@@ -103,6 +153,15 @@ export function Prioritiser({ example = false }: { example?: boolean }) {
     })
     .sort((a, b) => b.s - a.s);
 
+  async function writeToClipboard(text: string) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   function copySummary() {
     const problemsText = selected.map((i) => PROBLEMS[i]).join("\n- ");
     let text = `Supply Chain Initiative Prioritisation Summary\n============================================\n\nSelected problems:\n- ${problemsText}\n\nPrioritised initiatives (Impact + Effort score):\n\n`;
@@ -110,17 +169,45 @@ export function Prioritiser({ example = false }: { example?: boolean }) {
       text += `${idx + 1}. ${item.name}\n   Score: ${item.s} (${item.band.label})\n   Impact: ${ratingLabel(item.impact)} | Effort: ${ratingLabel(item.effort)}\n\n`;
     });
     text += `\nNote: This is an illustrative prioritisation from a portfolio tool. It is not a maturity assessment.`;
-    void navigator.clipboard.writeText(text).then(() => {
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2500);
+    void writeToClipboard(text).then((ok) => {
+      setCopied(ok);
+      if (ok) window.setTimeout(() => setCopied(false), 2500);
+      else setStatus("Copying is blocked in this browser. Use Print / Save as PDF instead.");
     });
   }
+
+  function copyShareLink() {
+    void writeToClipboard(buildShareUrl(selected, ratings)).then((ok) => {
+      setLinkCopied(ok);
+      if (ok) window.setTimeout(() => setLinkCopied(false), 2500);
+    });
+  }
+
 
   const currentStep = STEP_INDEX[step];
 
   return (
     <div>
       <Progress current={currentStep} />
+
+      <div aria-live="polite" className="sr-only">
+        {status}
+      </div>
+
+      {restored && (
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-info-border bg-info-muted px-4 py-3 text-sm text-subtle no-print">
+          <span>We restored your previous session on this device.</span>
+          <button
+            type="button"
+            onClick={restart}
+            className="font-medium text-brand-700 underline hover:text-brand-800"
+          >
+            Start fresh
+          </button>
+        </div>
+      )}
+
+
 
       {step === "problems" && (
         <section className="fade-in">
@@ -313,11 +400,15 @@ export function Prioritiser({ example = false }: { example?: boolean }) {
           scored={scored}
           selected={selected}
           copied={copied}
+          linkCopied={linkCopied}
           onCopy={copySummary}
+          onCopyLink={copyShareLink}
+          onExportCsv={() => downloadCsv(selected, ratings)}
           onRestart={restart}
           onBack={() => setStep("initiatives")}
         />
       )}
+
 
       {modal === "max3" && (
         <Modal
@@ -503,17 +594,24 @@ function Results({
   scored,
   selected,
   copied,
+  linkCopied,
   onCopy,
+  onCopyLink,
+  onExportCsv,
   onRestart,
   onBack,
 }: {
   scored: ScoredInitiative[];
   selected: number[];
   copied: boolean;
+  linkCopied: boolean;
   onCopy: () => void;
+  onCopyLink: () => void;
+  onExportCsv: () => void;
   onRestart: () => void;
   onBack: () => void;
 }) {
+
   const groups: { label: ScoredInitiative["band"]["label"]; items: ScoredInitiative[] }[] = (
     ["Start here", "Medium priority", "Lower priority"] as const
   ).map((label) => ({ label, items: scored.filter((i) => i.band.label === label) }));
@@ -619,7 +717,13 @@ function Results({
                       </div>
                       <p className="mt-1.5 text-sm text-subtle">{item.rationale}</p>
                     </div>
-                    <div className={`text-2xl font-bold ${bandStyles[label].score}`}>{item.s}</div>
+                    <div
+                      className={`text-2xl font-bold ${bandStyles[label].score}`}
+                      title={`Impact ${ratingLabel(item.impact)} (${{ H: 3, M: 2, L: 1 }[item.impact]}) + Effort ${ratingLabel(item.effort)} (${{ L: 3, M: 2, H: 1 }[item.effort]}) = ${item.s}`}
+                    >
+                      {item.s}
+                    </div>
+
                   </div>
                 ))}
               </div>
@@ -687,13 +791,27 @@ function Results({
         </Link>
       </div>
 
-      <div className="flex flex-col gap-3 no-print sm:flex-row">
+      <div className="flex flex-col gap-3 no-print sm:flex-row sm:flex-wrap">
         <button
           type="button"
           onClick={onCopy}
           className="rounded-xl bg-brand-600 px-6 py-2.5 font-semibold text-primary-foreground transition hover:bg-brand-700"
         >
           Copy summary
+        </button>
+        <button
+          type="button"
+          onClick={onCopyLink}
+          className="rounded-xl border border-brand-200 bg-brand-50 px-6 py-2.5 font-medium text-brand-700 transition hover:bg-brand-100"
+        >
+          Copy shareable link
+        </button>
+        <button
+          type="button"
+          onClick={onExportCsv}
+          className="rounded-xl border border-input bg-surface px-6 py-2.5 font-medium text-subtle transition hover:bg-surface-strong"
+        >
+          Download CSV
         </button>
         <button
           type="button"
@@ -717,9 +835,11 @@ function Results({
           Start over
         </button>
       </div>
-      {copied && (
-        <p className="mt-2 text-sm text-success no-print">Summary copied to clipboard!</p>
-      )}
+      <div aria-live="polite" className="mt-2 text-sm text-success no-print">
+        {copied && <p>Summary copied to clipboard!</p>}
+        {linkCopied && <p>Shareable link copied. Anyone with it sees these exact results.</p>}
+      </div>
+
       <div className="print-only print-footer mt-6 text-xs text-muted-foreground">
         Generated by P2I - A supply chain problem to initiative prioritiser. This is an illustration
         only.
@@ -741,9 +861,34 @@ function Modal({
   onClose: () => void;
   eyebrow?: string;
 }) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    closeRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/40 p-4">
-      <div className="w-full max-w-lg rounded-2xl bg-surface p-6 shadow-xl">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/40 p-4"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+        className="w-full max-w-lg rounded-2xl bg-surface p-6 shadow-xl"
+      >
         {eyebrow && (
           <div className="mb-2 text-xs font-semibold tracking-wide text-brand-600 uppercase">
             {eyebrow}
@@ -752,6 +897,7 @@ function Modal({
         <h2 className="mb-3 text-lg font-semibold text-heading">{title}</h2>
         {body}
         <button
+          ref={closeRef}
           type="button"
           onClick={onClose}
           className="w-full rounded-xl bg-brand-600 py-2.5 font-medium text-primary-foreground transition hover:bg-brand-700"
@@ -761,4 +907,5 @@ function Modal({
       </div>
     </div>
   );
+
 }
